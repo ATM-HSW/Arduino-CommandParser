@@ -35,8 +35,11 @@ template<typename T> size_t strToInt(const char* buf, T *value, T min_value, T m
 
     // parse sign if necessary
     bool isNegative = false;
-    if ((min_value < 0 && buf[position] == '+') || buf[position] == '-') {
+    if (min_value < 0 && (buf[position] == '+' || buf[position] == '-')) {
         isNegative = buf[position] == '-';
+        position ++;
+    } else if (min_value == 0 && buf[position] == '+') {
+        isNegative = false;
         position ++;
     }
 
@@ -72,7 +75,7 @@ template<typename T> size_t strToInt(const char* buf, T *value, T min_value, T m
         position ++;
     }
     if(isNegative) *value *= -1;
-    return digit == -1 ? 0 : position; // ensure that there is at least one digit
+    return (digit == -1 || (isNegative && base != 10)) ? 0 : position; // ensure that there is at least one digit and only a base10 int64 number may have a leading '-' character
 }
 
 template<size_t COMMANDS = 16, size_t COMMAND_ARGS = 4, size_t COMMAND_NAME_LENGTH = 10, size_t COMMAND_ARG_SIZE = 32, size_t COMMAND_HLP_LENGTH = 160, size_t RESPONSE_SIZE = 64>
