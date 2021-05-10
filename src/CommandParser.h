@@ -14,6 +14,10 @@
 #define __COMMAND_PARSER_H__
 
 #include <limits.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <cstdint>
 
 /*
 #include <cstring>
